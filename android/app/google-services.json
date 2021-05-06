@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1002587205266",
+    "project_id": "chatuygulamasi-3566c",
+    "storage_bucket": "chatuygulamasi-3566c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002587205266:android:56f5c14d82f0f5c68d004b",
+        "android_client_info": {
+          "package_name": "com.tmg.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002587205266-95o0o5s5n8si2flf6paoom99u4bqi37o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqpx1HYyeIU3Bs2P1lhdrokQoNAJj7eW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002587205266-95o0o5s5n8si2flf6paoom99u4bqi37o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
