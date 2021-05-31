@@ -34,6 +34,9 @@ dependencies:
   shared_preferences:
   random_string:
   cloud_firestore:
+  fancy_drawer: ^1.0.0
+
+
 
 
 dev_dependencies:

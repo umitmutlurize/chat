@@ -1,13 +1,11 @@
 import 'package:chat/Helper/otomatikgir.dart';
 import 'package:chat/HelperSharedPref/shared_preferences.dart';
+import 'package:chat/screens/MessagesPick.dart';
 import 'package:chat/screens/searchScreen.dart';
 
 import 'package:chat/services/auth_dart.dart';
 import 'package:chat/services/database.dart';
 
-import 'package:chat/widgets/category_selector.dart';
-import 'package:chat/widgets/favorite_contacts.dart';
-import 'package:chat/widgets/recent_chats.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -18,14 +16,16 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   AuthenticationMethods authenticationMethods = AuthenticationMethods();
   TextEditingController searchTextEdit = TextEditingController();
   bool searchTick = false;
   DataBaseMethods dataBaseMethods = DataBaseMethods();
 
-
   var myName, myProfilePic, myUserName, myEmail;
+
+  // BURASI BOTTOM BAR IN YAPILDIĞI BODY KISMININ DEĞİŞTİĞİ BÖLÜMDÜR
 
   myInfoFromSharedPrefence() async {
     myName = await SharedPreferenceHelper().getDisplayName();
@@ -45,104 +45,123 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late QuerySnapshot searchSnapShot;
 
-
+  @override
+  void initState() {
+    myInfoFromSharedPrefence();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 30,
-          color: Colors.white,
-          onPressed: () {},
-        ),
-        title: Text(
-          'Mesajlar',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-        ),
-        elevation: 0.0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: IconButton(
-              icon: Icon(Icons.search),
-              iconSize: 30,
-              color: Colors.white,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: IconButton(
-              icon: Icon(Icons.exit_to_app),
-              iconSize: 30,
-              color: Colors.white,
-              onPressed: () {
-                authenticationMethods.signOut();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => AutomaticGiris()));
-              },
-            ),
-          ),
-        ],
-      ),
-      body: searchTick
-          ? GestureDetector(
-              onTap: () {
-                setState(() {
-                  searchTextEdit.text = "";
-                });
-              },
-              child: Container(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                            Color(0x36FFFFFF),
-                            Color(0x8FFFFFF)
-                          ])),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : Column(
+    return DefaultTabController(
+      length: 4,
+      initialIndex: 0,
+      child: Scaffold(
+          drawer: Drawer(
+            child: ListView(
               children: [
-                CategorySelector(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 1,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          FavoriteContacts(),
-                          RecentChats(),
-                        ],
-                      ),
-                    ),
-                  ),
+                DrawerHeader(child: Text('Başlık')),
+                ListTile(
+                  leading: Icon(Icons.message),
+                  title: Text('Mesajlar'),
                 ),
+                ListTile(
+                  leading: Icon(Icons.palette_rounded),
+                  title: Text('Resimsss'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Ayarsss'),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  decoration: BoxDecoration(shape: BoxShape.circle,
+                      image:
+                          DecorationImage(image: NetworkImage(myProfilePic))),
+                )
               ],
             ),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          appBar: AppBar(
+            title: Text(
+              'Mesajlar',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            elevation: 0.0,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: IconButton(
+                  icon: Icon(Icons.search),
+                  iconSize: 30,
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchScreen()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: IconButton(
+                  icon: Icon(Icons.exit_to_app),
+                  iconSize: 30,
+                  color: Colors.white,
+                  onPressed: () {
+                    authenticationMethods.signOut();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AutomaticGiris()));
+                  },
+                ),
+              ),
+            ],
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.white,
+              indicatorWeight: 5.0,
+              tabs: [
+                Tab(
+                  icon: Icon(Icons.message_sharp),
+                  text: 'MESAJ',
+                ),
+                Tab(
+                  icon: Icon(Icons.message_sharp),
+                  text: 'MESAJ',
+                ),
+                Tab(
+                  icon: Icon(Icons.message_sharp),
+                  text: 'MESAJ',
+                ),
+                Tab(
+                  icon: Icon(Icons.message_sharp),
+                  text: 'MESAJ',
+                )
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              MessagesPick(),
+              buildPage("ikinci Adım"),
+              buildPage("üç Adım"),
+              buildPage("Dört Adım"),
+            ],
+          )),
+    );
+  }
+
+  Widget buildPage(String text) {
+    return Center(
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 28.0),
+      ),
     );
   }
 }

@@ -16,12 +16,13 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchTextEdit = TextEditingController();
   var userStream;
 
-  var myName, myProfilePic, myUserName, myEmail;
+  var myName, myProfilePic, myEmail;
+  late String myUserName;
 
   myInfoFromSharedPrefence() async {
     myName = await SharedPreferenceHelper().getDisplayName();
     myProfilePic = await SharedPreferenceHelper().getUserProfileUrl();
-    myUserName = await SharedPreferenceHelper().getUserName();
+    myUserName = (await SharedPreferenceHelper().getUserName())!;
     myEmail = await SharedPreferenceHelper().getUserEmail();
     setState(() {});
   }

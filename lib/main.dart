@@ -22,6 +22,7 @@ scaffoldBackgroundColor: Colors.black.withOpacity(0.95),
         accentColor: Color(0xFFFEF985),
       ),
       home: AutomaticGiris(),
+
     );
   }
 
