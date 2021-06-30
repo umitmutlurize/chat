@@ -28,10 +28,10 @@ class _HomeScreenState extends State<HomeScreen>
   // BURASI BOTTOM BAR IN YAPILDIĞI BODY KISMININ DEĞİŞTİĞİ BÖLÜMDÜR
 
   myInfoFromSharedPrefence() async {
-    myName = await SharedPreferenceHelper().getDisplayName();
-    myProfilePic = await SharedPreferenceHelper().getUserProfileUrl();
-    myUserName = await SharedPreferenceHelper().getUserName();
-    myEmail = await SharedPreferenceHelper().getUserEmail();
+    myName = await SharedPreferenceHelper().getDisplayName()??"";
+    myProfilePic = await SharedPreferenceHelper().getUserProfileUrl()??"";
+    myUserName = await SharedPreferenceHelper().getUserName()??"";
+    myEmail = await SharedPreferenceHelper().getUserEmail()??"";
     setState(() {});
   }
 
@@ -132,15 +132,15 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 Tab(
                   icon: Icon(Icons.message_sharp),
-                  text: 'MESAJ',
+                  text: 'Çağrı',
                 ),
                 Tab(
                   icon: Icon(Icons.message_sharp),
-                  text: 'MESAJ',
+                  text: 'Arama',
                 ),
                 Tab(
                   icon: Icon(Icons.message_sharp),
-                  text: 'MESAJ',
+                  text: 'Keşfet',
                 )
               ],
             ),
